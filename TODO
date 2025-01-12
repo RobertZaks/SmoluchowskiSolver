@@ -1,0 +1,7 @@
+smoluchowski/solver:
+    - Remove RightSide class
+smoluchowski/operator:
+    - Add automatic test for SmoluchowskiCalc
+examples/smolsolver
+    - Rewrite this file
+    - Remove matplotlib draw and add gnuplot

@@ -1,0 +1,18 @@
+Version 0.0.06:
+    - fix adjoint problem solver
+
+Version 0.0.05:
+    - add interface to choose different stop criteria (by max_iter and functional)
+    - add callback interface to use in problems to print number iteration, value
+      functional, time of calculation operator
+
+Version 0.0.04
+    - fix bug with incorrect calculation in calc_L1 fast
+    - stop kriteria by functional in inverse problem added
+
+Version 0.0.03
+    - add class SourceFunction with support of fix time SourceFunction
+
+Version 0.0.02
+    - rewrite SmoluchowskiSolver class, add SmoluchowskiOperator,
+      now cross.cpp use array of index not list

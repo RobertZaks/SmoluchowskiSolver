@@ -1,0 +1,33 @@
+                 S m o l u c h o w s k i   S o l v e r
+
+                           The README file
+
+This is a set of programs that solve the Smoluchowski problems (forward and 
+inverse) with fast algorithms of linear algebra. 
+
+To build SmoluchowsliSolver you will need gcc/g++ (of any version you can find
+nowadays) and GNU make. Just type 'make' right here (in the same
+directory you've found this file) and wait a bit. Binarie 'smolsolver' will
+be found in the 'examples/' subdirectory. Yoy can also type 'make all' to
+build test files to cross approximation and fast fourier transformation in
+'smoluchowski/' subdirecrtory.
+
+Directory structure:
+./             - root of all subroutines
+./smoluchowski - "library" with solver of Smoluchowski equation
+./examples     - directory with example of use SmoluchowskiSolver
+./doc          - TODO
+
+Library structure:
+./smoluchowski/fft.*       - contains class of Complex numbers and 
+    FourieTransform wich can do usual and fast discrete Fourier transform
+./smoluchowski/matrix.*    - contains base class to work with matrix and 
+    class of matrix wich stored by columns (so you can easy increase columns)
+./smoluchowski/indexlist.* - contains class with list of increasing numbers
+    wich used in cross approximation
+./smoluchowski/cross.*     - contains base class of skeleton decomposition
+    with fast matvec functions (full, upper/lower triangular) and class of 
+    Cross Approximation
+./smoluchowski/solver.*    - contains SmoluchowskiSolver wich can solve
+    such forward linear and nonlinear problems as linear adjoint and
+    inverse problems
