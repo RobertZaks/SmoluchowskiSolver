@@ -8,8 +8,8 @@ inverse) with fast algorithms of linear algebra.
 This program attached to article
 Zaks R.T., Matveev S.A., Shutyaev, V.P.
 Fast Numerical Method for Source Function Reconstruction in
-the Coagulation–Fragmentation Equation.
-Comput. Math. and Math. Phys. 65, 1671–1690 (2025).
+the Coagulation-Fragmentation Equation.
+Comput. Math. and Math. Phys. 65, 1671-1690 (2025).
 https://doi.org/10.1134/S0965542525700629. 
 
 To build SmoluchowskiSolver you will need gcc/g++ (of any version you can find
