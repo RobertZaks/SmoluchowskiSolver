@@ -7,7 +7,7 @@
 
 double K(unsigned i, unsigned j, double h)
 {
-#if 0
+#if 1
     return pow(pow((i + 1) * h, 1.0 / 3.0) + pow((j + 1) * h, 1.0 / 3.0), 2) *
         sqrt(1.0 / ((i + 1) * h) + 1.0 / ((j + 1) * h));
 #endif
@@ -49,8 +49,10 @@ class SmoluchowskiLinearOperatorSaveTime : public SmoluchowskiLinearOperator {
     double max_apply;
     double max_apply_adjoint;
 public:
-    SmoluchowskiLinearOperatorSaveTime(SmoluchowskiCalc& _base, const double *st)
-        : SmoluchowskiLinearOperator(_base, st), max_apply(0), max_apply_adjoint(0)
+    SmoluchowskiLinearOperatorSaveTime(SmoluchowskiCalc& _base,
+            const double *st)
+        : SmoluchowskiLinearOperator(_base, st), max_apply(0),
+        max_apply_adjoint(0)
     { }
     ~SmoluchowskiLinearOperatorSaveTime()
     { }
@@ -90,26 +92,28 @@ public:
 int main()
 {
     unsigned i, k;
-    unsigned N = 16000, M = 80;
+    unsigned N = 1000, M = 80;
     unsigned m1, m2;
     unsigned num_iter;
     double H = 6.0, T = 0.5;
-    double t1, t2, tau, h, alpha, dzeta;
-    double *res, *rightside, *ptmp, *c_obs_s, *c_obs_r;
+    double t1, t2, tau, h, alpha, c1, dzeta, tol_cross = 1e-6;
+    double *res, *rightside, *ptmp;
+    FILE *f;
     h = H / double(N);
     tau = T / double(M);
     rightside = new double[(N + 1) * (M + 1)];
     res = new double[(N + 1) * (M + 1)];
     ptmp = new double[N + 1];
-    c_obs_s = new double[(N + 1) * (M + 1)];
-    c_obs_r = new double[(N + 1) * (M + 1)];
     
     num_iter = 2;
 
     alpha = 0.05;
-    dzeta = 2.0 / (2.0 * alpha + 100.0);
-    t1 = 0.1;
-    t2 = 0.3;
+    c1 = T;
+    dzeta = 2.0 / (2.0 * alpha + c1);
+    t1 = T / 5;
+    t2 = 3 * T / 5;
+    m1 = floor(t1 / T * M);
+    m2 = ceil(t2 / T * M);
     m1 = floor(t1 / T * M);
     m2 = ceil(t2 / T * M);
     printf("N: %d, H: %f, M: %d, T: %f\n", N, H, M, T);
@@ -117,10 +121,10 @@ int main()
 
     FunctionMatrix K_M(N + 1, N + 1, h, K);
     Cross K_approx(K_M);
-    K_approx.Approximate(1e-6);
+    K_approx.Approximate(tol_cross);
     FunctionMatrix Psi_M(N + 1, N + 1, h, Psi);
     Cross Psi_approx(Psi_M);
-    Psi_approx.Approximate(1e-6);
+    Psi_approx.Approximate(tol_cross);
     printf("K   rank: %d\n", K_approx.GetRank());
     printf("Psi rank: %d\n", Psi_approx.GetRank());
 
@@ -129,7 +133,11 @@ int main()
         res[i] = 0;
     }
     
+#ifdef CALC_DIRECT
+    SmoluchowskiCalcDirect smol_base(K_approx, Psi_approx, H, N);
+#else
     SmoluchowskiCalcFast smol_base(K_approx, Psi_approx, H, N);
+#endif
     SmoluchowskiLinearOperatorSaveTime smol_op(smol_base, ptmp);
     SmoluchowskiSolver solver(smol_op);
     
@@ -166,15 +174,17 @@ int main()
 
 
 
-    FILE *f = fopen("times_direct", "a");
+#ifdef CALC_DIRECT
+    f = fopen("times_direct", "a");
+#else
+    f = fopen("times_fast", "a");
+#endif
     fprintf(f, "N: %d, H: %f, M: %d, T: %f\n", N, H, M, T);
     fprintf(f, "apply linear operator max time: %f\n", smol_op.GetMaxApplyTime());
     fprintf(f, "apply adjoint linear operator max time: %f\n",
             smol_op.GetMaxApplyAdjointTime());
     fclose(f);
 
-    delete [] c_obs_r;
-    delete [] c_obs_s;
     delete [] ptmp;
     delete [] res;
     delete [] rightside;

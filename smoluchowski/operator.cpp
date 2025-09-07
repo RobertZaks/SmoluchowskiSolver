@@ -71,7 +71,7 @@ void SmoluchowskiCalcDirect::fix_f_arg(const double *f)
     unsigned i, k, r;
     r = K.GetRank();
     if(!Uf) {
-        Uf = new double[(N + 1) * K.GetRank()];
+        Uf = new double[(N + 1) * r];
     }
     for(k = 0; k < r; ++k) {
         for(i = 0; i <= N; ++i) {
@@ -405,21 +405,26 @@ SmoluchowskiOperator::~SmoluchowskiOperator()
 SmoluchowskiNonLinearOperator::SmoluchowskiNonLinearOperator(
         SmoluchowskiCalc& calc)
     : SmoluchowskiOperator(calc)
-{ }
+{
+    unsigned i;
+    L3_y = new double[N + 1];
+    for(i = 0; i <= N; ++i) {
+        tmp_l[i] = double(i) * h;
+    }
+    smol_base.calc_L3(tmp_l, L3_y);
+}
 
 SmoluchowskiNonLinearOperator::~SmoluchowskiNonLinearOperator()
-{ }
+{
+    delete [] L3_y;
+}
 
 void SmoluchowskiNonLinearOperator::Apply(const double *g, double *res)
 {
     unsigned i;
-    for(i = 0; i <= N; ++i) {
-        res[i] = double(i) * h;
-    }
-    smol_base.calc_L3(res, tmp_l);
     smol_base.calc_L4(g, res);
     for(i = 1; i <= N; ++i) {
-        res[i] -= g[i] / (double(i) * h) * tmp_l[i];
+        res[i] -= g[i] / (double(i) * h) * L3_y[i];
     }
     smol_base.calc_L5(g, tmp_l);
     for(i = 0; i <= N; ++i) {

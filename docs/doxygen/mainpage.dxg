@@ -1,0 +1,23 @@
+/*!
+
+\mainpage Smoluchowski Solver.
+
+Visit the official site at
+<A HREF="https://smoluch.rozax.net">https://smoluch.rozax.net</A>
+
+\section intro Introduction
+
+Smoluchowski Solver is a set of programs that solve the
+Smoluchowski problems (forward and inverse) with fast
+algorithms of linear algebra. 
+
+\section build Build
+
+To build Smoluchowski Solver you will need gcc/g++
+(of any version you can find nowadays) and GNU make.
+
+Just type 'make' in the source directory and wait a bit.
+Binarie 'smolsolver' will be found in the 'examples/' subdirectory.
+Yoy can also type 'make all' to build test files to cross
+approximation and fast fourier transformation in 'smoluchowski/' subdirecrtory.
+*/

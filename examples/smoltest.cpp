@@ -31,7 +31,7 @@ int main()
     double H = 12.0, T = 3.0;
     double tau, h, x;
     double *res, *ptmp;
-    double cn, tmp;
+    double cn, tmp, tol_cross = 1e-6;
     h = H / double(N);
     tau = T / double(M);
     res = new double[(N + 1) * (M + 1)];
@@ -41,10 +41,10 @@ int main()
 
     FunctionMatrix K_M(N + 1, N + 1, h, K);
     Cross K_approx(K_M);
-    K_approx.Approximate(1e-6);
+    K_approx.Approximate(tol_cross);
     FunctionMatrix Psi_M(N + 1, N + 1, h, Psi);
     Cross Psi_approx(Psi_M);
-    Psi_approx.Approximate(1e-6);
+    Psi_approx.Approximate(tol_cross);
 
     for(i = 0; i <= N; ++i) {
         ptmp[i] = 0;

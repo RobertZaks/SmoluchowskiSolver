@@ -4,12 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
-res = np.loadtxt('../functional.csv', delimiter=',')
+res = np.loadtxt('../functional_fixtime.csv', delimiter=',')
 fig, ax = plt.subplots()
-
-
-num = 30
-#res = res[:num]
 
 ymin = res.min()
 xmin = np.where(res == ymin)
@@ -20,4 +16,4 @@ ax.legend(fontsize=10)
 plt.grid()
 plt.yscale('log')
 plt.xlabel('num_iter', fontsize=10)
-fig.savefig('resgraph_functional.pdf', format='pdf', transparent=True)
+fig.savefig('resgraph_functional_fixtime.pdf', format='pdf', transparent=True)

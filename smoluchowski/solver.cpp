@@ -147,11 +147,11 @@ void SourceFunctionFixTime::Update(double *q, double alpha, double dzeta)
 
 /*===========RightSide===============*/
 
-RightSideNoTime::RightSideNoTime(unsigned _N, double *_arr)
+RightSideNoTime::RightSideNoTime(unsigned _N, const double *_arr)
     : N(_N), arr(_arr)
 { }
 
-void RightSideNoTime::Set(unsigned _N, double *_arr)
+void RightSideNoTime::Set(unsigned _N, const double *_arr)
 {
     N = _N;
     arr = _arr;
@@ -167,11 +167,11 @@ double RightSideNoTime::operator()(unsigned xi, unsigned ti) const
     return arr[xi];
 }
 
-RightSideGeneral::RightSideGeneral(unsigned _N, unsigned _M, double *_arr)
+RightSideGeneral::RightSideGeneral(unsigned _N, unsigned _M, const double *_arr)
     : N(_N), M(_M), arr(_arr)
 { }
 
-void RightSideGeneral::Set(unsigned _N, unsigned _M, double *_arr)
+void RightSideGeneral::Set(unsigned _N, unsigned _M, const double *_arr)
 {
     N = _N;
     M = _M;

@@ -1,2 +1,4 @@
+all:
+
 clean:
-	rm -rf *.pdf *~
+	rm -rf *.pdf *.eps *~
