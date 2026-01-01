@@ -74,7 +74,7 @@ int main()
         for(i = 0; i <= N; i++) {
             mass[k] += double(i) * res[(N + 1) * k + i];
         }
-        mass[k] = h * h * (mass[k] - 0.5 * (0 + H * res[(N + 1) * k + N]));
+        mass[k] = h * h * (mass[k] - 0.5 * (0 + N * res[(N + 1) * k + N]));
         fprintf(graph, "%f\t%f\n", double(k) * tau, mass[k]);
     }
     fclose(graph);

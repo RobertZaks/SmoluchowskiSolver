@@ -1,14 +1,14 @@
 CXX = g++ -ansi -pedantic
-CXXFLAGS = -Wall -I../ -O2 # -DCALC_DIRECT #-g
+CXXFLAGS = -Wall -I../ -O2 -g # -DCALC_DIRECT #-g
 LIBS = -lm
 
 BINARIES = smolsolver smoltest checktime smolsolver_obs \
-	   smolgel
+	   smolgel partial
 STATIC = 
 
 .PHONY: default all clean
 
-default: $(BINARIES)
+default: all
 
 all: $(BINARIES)
 	cd ../smoluchowski ; $(MAKE) all
@@ -35,6 +35,9 @@ smoltest: smoltest.cpp $(LIBDEPS)
 	$(CXX) $(STATIC) $(CXXFLAGS) $^ $(LIBS) -o $@
 
 smolgel: smolgel.cpp $(LIBDEPS)
+	$(CXX) $(STATIC) $(CXXFLAGS) $^ $(LIBS) -o $@
+
+partial: partial.cpp $(LIBDEPS)
 	$(CXX) $(STATIC) $(CXXFLAGS) $^ $(LIBS) -o $@
 
 clean:

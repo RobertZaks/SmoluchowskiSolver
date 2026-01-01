@@ -96,7 +96,7 @@ int main(int argc, const char *const *argv)
     if(argc == 2) {
         if(1 != sscanf(argv[1], "%lf", &alpha)) {
             fprintf(stderr, "expected real value alpha:'%s'\n", argv[1]);
-            return false;
+            return 1;
         }
     }
 
